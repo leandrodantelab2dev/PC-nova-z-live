@@ -21,6 +21,118 @@ html{scroll-behavior:smooth;font-size:16px}
 body{font-family:'Montserrat',sans-serif;background:var(--preto);color:var(--creme);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 
+/* ══════════════════════════════════
+   OVERRIDES RD STATION FORM
+══════════════════════════════════ */
+/* Esconde título e subtítulo padrão do RD */
+.rd-form .form-title,
+.rd-form .form-description,
+.bricks-form .form-title,
+.bricks-form .form-description,
+[class*="rd-"] h2,
+[class*="rd-"] h3,
+[class*="rd-"] p.subtitle { display:none !important; }
+
+/* Container do form */
+.rd-form, .bricks-form,
+[class*="rd-form"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Labels */
+.rd-form label,
+.bricks-form label,
+[class*="rd-form"] label {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  letter-spacing: 2.5px !important;
+  text-transform: uppercase !important;
+  color: rgba(245,239,230,.4) !important;
+  margin-bottom: 6px !important;
+}
+
+/* Inputs */
+.rd-form input[type=text],
+.rd-form input[type=email],
+.bricks-form input[type=text],
+.bricks-form input[type=email],
+[class*="rd-form"] input[type=text],
+[class*="rd-form"] input[type=email] {
+  width: 100% !important;
+  background: rgba(255,255,255,.04) !important;
+  border: 1px solid rgba(201,169,59,.2) !important;
+  border-radius: 10px !important;
+  padding: 14px 18px !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #F5EFE6 !important;
+  outline: none !important;
+  margin-bottom: 12px !important;
+  box-shadow: none !important;
+}
+.rd-form input[type=text]:focus,
+.rd-form input[type=email]:focus,
+[class*="rd-form"] input[type=text]:focus,
+[class*="rd-form"] input[type=email]:focus {
+  border-color: #C9A93B !important;
+  background: rgba(201,169,59,.06) !important;
+  box-shadow: 0 0 0 3px rgba(201,169,59,.1) !important;
+}
+
+/* Placeholder */
+.rd-form input::placeholder,
+[class*="rd-form"] input::placeholder {
+  color: rgba(245,239,230,.2) !important;
+}
+
+/* Botão submit */
+.rd-form input[type=submit],
+.rd-form button[type=submit],
+.bricks-form input[type=submit],
+.bricks-form button[type=submit],
+[class*="rd-form"] input[type=submit],
+[class*="rd-form"] button[type=submit] {
+  width: 100% !important;
+  background: linear-gradient(135deg,#E5C462,#C9A93B) !important;
+  color: #0D0D0D !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 17px 24px !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 2.5px !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 28px rgba(201,169,59,.3) !important;
+  margin-top: 4px !important;
+  transition: opacity .2s, transform .15s !important;
+}
+.rd-form input[type=submit]:hover,
+.rd-form button[type=submit]:hover,
+[class*="rd-form"] input[type=submit]:hover,
+[class*="rd-form"] button[type=submit]:hover {
+  opacity: .9 !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Texto de política / LGPD */
+.rd-form .privacy-policy,
+[class*="rd-form"] .privacy-policy,
+[class*="rd-form"] small {
+  font-size: 9px !important;
+  color: rgba(245,239,230,.25) !important;
+  text-align: center !important;
+  margin-top: 10px !important;
+}
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--preto)}
@@ -976,9 +1088,11 @@ footer p{font-size:11px;color:rgba(245,239,230,.2);line-height:1.7}
     </p>
 
     <div class="cta-form">
-      <!-- FORMULÁRIO RD STATION -->
-      <div role="main" id="a-nova-z-ddcd3a6be827d99e9fdc-2"></div>
-      <script type="text/javascript">new RDStationForms('a-nova-z-ddcd3a6be827d99e9fdc', 'null').createForm();</script>
+      <!-- CTA: direciona para o form do hero -->
+      <a href="#hero" class="btn-cta" style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg>
+        Quero estar na live
+      </a>
 
       <div class="or-line">ou</div>
       <a class="btn-wpp" href="https://chat.whatsapp.com/D3yqGrrsASV4dDsihofb7N?mode=gi_t" target="_blank" rel="noopener">

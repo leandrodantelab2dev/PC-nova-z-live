@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vaga Garantida · A Nova Z · Lab2learn</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<!-- ══ META PIXEL ══ -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1394102987855022');
+fbq('track', 'PageView');
+fbq('track', 'CompleteRegistration');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1394102987855022&ev=CompleteRegistration&noscript=1"/></noscript>
+
+<!-- ══ RD STATION RASTREAMENTO ══ -->
+<script type="text/javascript" async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/2043ecbb-c0bf-46c8-8c5c-2a1c80e7f222-loader.js"></script>
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --preto:#0D0D0D;
+  --carvao:#111111;
+  --carvao2:#1C1C1C;
+  --creme:#F5EFE6;
+  --ouro:#C9A93B;
+  --ouro-claro:#E5C462;
+}
+html{font-size:16px;height:100%}
+body{
+  font-family:'Montserrat',sans-serif;
+  background:var(--preto);
+  color:var(--creme);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+
+/* ── GRID DE FUNDO ── */
+.bg-grid{
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(201,169,59,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,169,59,0.04) 1px, transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── GLOWS ── */
+.glow-top{
+  position:fixed;
+  top:-200px; right:-100px;
+  width:600px; height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(201,169,59,0.08) 0%, transparent 65%);
+  pointer-events:none;
+  z-index:0;
+}
+.glow-bottom{
+  position:fixed;
+  bottom:-200px; left:-100px;
+  width:500px; height:500px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(201,169,59,0.05) 0%, transparent 65%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── CARD ── */
+.card{
+  position:relative;
+  z-index:1;
+  background:var(--carvao2);
+  border:1px solid rgba(201,169,59,0.2);
+  border-radius:24px;
+  padding:56px 48px;
+  max-width:520px;
+  width:calc(100% - 48px);
+  text-align:center;
+  box-shadow:0 32px 80px rgba(0,0,0,0.5);
+}
+
+/* ── ÍCONE CHECK ── */
+.check-wrap{
+  width:72px; height:72px;
+  border-radius:50%;
+  background:rgba(201,169,59,0.1);
+  border:2px solid var(--ouro);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 32px;
+  animation:pulse-ring 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-ring{
+  0%,100%{box-shadow:0 0 0 0 rgba(201,169,59,0.3)}
+  50%{box-shadow:0 0 0 12px rgba(201,169,59,0)}
+}
+
+/* ── BADGE ── */
+.badge{
+  display:inline-block;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--ouro);
+  margin-bottom:16px;
+}
+
+/* ── TÍTULO ── */
+.title{
+  font-size:28px;
+  font-weight:900;
+  line-height:1.15;
+  color:var(--creme);
+  margin-bottom:8px;
+}
+.title em{
+  font-style:normal;
+  color:var(--ouro-claro);
+}
+
+/* ── SUBTÍTULO ── */
+.subtitle{
+  font-size:14px;
+  font-weight:400;
+  color:rgba(245,239,230,0.5);
+  line-height:1.7;
+  margin-bottom:36px;
+}
+
+/* ── DIVISOR ── */
+.divider{
+  height:1px;
+  background:rgba(201,169,59,0.12);
+  margin:0 0 32px;
+}
+
+/* ── CARDS DE PRÓXIMOS PASSOS ── */
+.steps{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-bottom:36px;
+  text-align:left;
+}
+
+.step{
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(201,169,59,0.1);
+  border-radius:12px;
+  padding:16px 20px;
+}
+
+.step-icon{
+  width:36px; height:36px;
+  border-radius:50%;
+  background:rgba(201,169,59,0.1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.step-text{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.step-label{
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--ouro);
+}
+
+.step-desc{
+  font-size:13px;
+  font-weight:500;
+  color:rgba(245,239,230,0.7);
+  line-height:1.5;
+}
+
+/* ── BOTÃO WHATSAPP ── */
+.btn-wpp{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:100%;
+  background:linear-gradient(135deg, #E5C462, #C9A93B);
+  color:#0D0D0D;
+  border:none;
+  border-radius:12px;
+  padding:18px 24px;
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  text-decoration:none;
+  box-shadow:0 4px 28px rgba(201,169,59,0.35);
+  transition:opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  margin-bottom:16px;
+}
+.btn-wpp:hover{
+  opacity:0.92;
+  transform:translateY(-2px);
+  box-shadow:0 8px 36px rgba(201,169,59,0.45);
+}
+
+/* ── LINK VOLTAR ── */
+.back{
+  font-size:11px;
+  font-weight:600;
+  color:rgba(245,239,230,0.3);
+  letter-spacing:1px;
+  text-decoration:none;
+  transition:color 0.2s;
+}
+.back:hover{color:rgba(245,239,230,0.6)}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;
+  z-index:1;
+  margin-top:32px;
+  font-size:10px;
+  color:rgba(245,239,230,0.18);
+  letter-spacing:1px;
+  text-align:center;
+}
+
+/* ── MOBILE ── */
+@media(max-width:540px){
+  .card{padding:40px 24px}
+  .title{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="glow-top"></div>
+<div class="glow-bottom"></div>
+
+<div class="card">
+
+  <!-- Check animado -->
+  <div class="check-wrap">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9A93B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 6L9 17l-5-5"/>
+    </svg>
+  </div>
+
+  <span class="badge">Inscrição confirmada</span>
+
+  <h1 class="title">
+    Sua vaga está<br>
+    <em>garantida.</em>
+  </h1>
+
+  <p class="subtitle">
+    Obrigado por se inscrever na <strong style="color:rgba(245,239,230,0.75)">A Nova Z: Clean Core na Prática</strong>.<br>
+    Você vai receber os detalhes no e-mail cadastrado.
+  </p>
+
+  <div class="divider"></div>
+
+  <!-- Próximos passos -->
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A93B" stroke-width="2" stroke-linecap="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div class="step-text">
+        <span class="step-label">Antes do grande dia</span>
+        <span class="step-desc">Fique de olho: faremos lives de aquecimento para você chegar no 16/05 pronto para absorver tudo.</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A93B" stroke-width="2" stroke-linecap="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+      </div>
+      <div class="step-text">
+        <span class="step-label">O grande dia — 16/05 às 9h</span>
+        <span class="step-desc">A live principal. Prática, direta e cheia de conteúdo real sobre Clean Core no SAP.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA WhatsApp -->
+  <a class="btn-wpp"
+     href="https://chat.whatsapp.com/D3yqGrrsASV4dDsihofb7N?mode=gi_t"
+     target="_blank"
+     rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    Entrar no grupo do WhatsApp
+  </a>
+
+  <a class="back" href="/">← Voltar para a página</a>
+
+</div>
+
+<footer>Lab2learn · A Nova Z · Clean Core na Prática</footer>
+
+</body>
+</html>

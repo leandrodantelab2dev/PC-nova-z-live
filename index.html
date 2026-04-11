@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Nova Z: Clean Core na Prática · Lab2learn · 16 de Maio</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --preto:#0D0D0D;
+  --carvao:#111111;
+  --carvao2:#1C1C1C;
+  --creme:#F5EFE6;
+  --ouro:#C9A93B;
+  --ouro-claro:#E5C462;
+  --ouro-escuro:#8a6e1e;
+  --white:#fff;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Montserrat',sans-serif;background:var(--preto);color:var(--creme);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--preto)}
+::-webkit-scrollbar-thumb{background:var(--ouro-escuro);border-radius:2px}
+
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+#hero{
+  min-height:100vh;
+  background:var(--preto);
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:1fr 480px;
+  align-items:center;
+  gap:0;
+}
+
+/* Ruído de fundo */
+#hero::after{
+  content:'';
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;opacity:.4;
+}
+
+/* Grade dourada de fundo */
+.hero-grid-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(201,169,59,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,169,59,.05) 1px,transparent 1px);
+  background-size:64px 64px;
+  pointer-events:none;
+}
+/* fade nas bordas da grade */
+.hero-grid-bg::after{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 30% 50%, transparent 40%, var(--preto) 100%);
+}
+
+/* Glow central */
+.hero-glow{
+  position:absolute;
+  width:800px;height:800px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,59,.09) 0%,transparent 65%);
+  top:50%;left:30%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+
+/* Círculos orbitais animados */
+.orb{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(201,169,59,.07);
+  top:50%;left:30%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  animation:spin linear infinite;
+}
+.orb-1{width:1000px;height:1000px;animation-duration:60s}
+.orb-2{width:720px;height:720px;border-color:rgba(201,169,59,.1);animation-duration:40s;animation-direction:reverse}
+.orb-3{width:480px;height:480px;border-color:rgba(201,169,59,.15);animation-duration:25s}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* ── COLUNA ESQUERDA ── */
+.hero-left{
+  position:relative;z-index:2;
+  padding:120px 80px 80px 80px;
+  display:flex;flex-direction:column;
+  justify-content:center;
+}
+
+/* Marca */
+.brand{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-bottom:52px;
+}
+.brand-name{
+  font-size:9px;font-weight:800;
+  letter-spacing:4px;text-transform:uppercase;
+  color:var(--ouro);line-height:1.5;
+}
+.brand-name small{
+  display:block;font-size:8px;font-weight:600;
+  color:rgba(245,239,230,.35);letter-spacing:3px;
+}
+
+/* Live pill */
+.live-pill{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(201,169,59,.1);
+  border:1px solid rgba(201,169,59,.28);
+  border-radius:100px;
+  padding:9px 20px 9px 14px;
+  font-size:10px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--ouro-claro);
+  margin-bottom:32px;
+  width:fit-content;
+}
+.dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--ouro);flex-shrink:0;
+  position:relative;
+}
+.dot::after{
+  content:'';
+  position:absolute;inset:-5px;border-radius:50%;
+  background:var(--ouro);opacity:.25;
+  animation:ping 2s ease-out infinite;
+}
+@keyframes ping{
+  0%{transform:scale(1);opacity:.25}
+  100%{transform:scale(2.5);opacity:0}
+}
+
+/* Headline */
+.hero-h1{
+  font-size:clamp(44px,5.5vw,80px);
+  font-weight:900;line-height:.95;
+  letter-spacing:-3px;
+  margin-bottom:0;
+}
+.hero-h1 .line1{color:var(--creme)}
+.hero-h1 .line2{
+  color:transparent;
+  background:linear-gradient(135deg,var(--ouro-claro) 0%,var(--ouro) 50%,var(--ouro-escuro) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  display:block;
+}
+.hero-h1 .line3{color:rgba(245,239,230,.35);font-size:.6em;display:block;letter-spacing:-1px;margin-top:8px}
+
+/* Linha decorativa */
+.hero-rule{
+  width:100%;height:1px;
+  background:linear-gradient(to right,rgba(201,169,59,.4),transparent);
+  margin:32px 0;
+}
+
+/* Sub */
+.hero-sub{
+  font-size:15px;font-weight:400;
+  line-height:1.85;
+  color:rgba(245,239,230,.6);
+  max-width:460px;
+  margin-bottom:40px;
+}
+.hero-sub b{color:var(--creme);font-weight:600}
+
+/* Tags */
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:44px}
+.tag{
+  font-size:9px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:rgba(245,239,230,.5);
+  border:1px solid rgba(245,239,230,.15);
+  border-radius:3px;padding:5px 12px;
+}
+
+/* Info data/hora/onde */
+.event-meta{display:flex;gap:40px;flex-wrap:wrap}
+.em-item{}
+.em-label{
+  font-size:9px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  color:rgba(245,239,230,.3);margin-bottom:5px;
+}
+.em-val{font-size:14px;font-weight:700;color:var(--creme)}
+
+/* ── COLUNA DIREITA (form) ── */
+.hero-right{
+  position:relative;z-index:2;
+  height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:40px 60px 40px 20px;
+  background:linear-gradient(to right,transparent,rgba(201,169,59,.04) 40%);
+  border-left:1px solid rgba(201,169,59,.08);
+}
+
+.form-card{
+  width:100%;max-width:380px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(201,169,59,.2);
+  border-radius:20px;
+  padding:44px 36px;
+  backdrop-filter:blur(12px);
+  position:relative;overflow:hidden;
+}
+.form-card::before{
+  content:'';
+  position:absolute;top:-80px;right:-80px;
+  width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,59,.12) 0%,transparent 65%);
+  pointer-events:none;
+}
+.form-card::after{
+  content:'';
+  position:absolute;bottom:-60px;left:-60px;
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,59,.07) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.fc-sup{
+  font-size:9px;font-weight:800;
+  letter-spacing:4px;text-transform:uppercase;
+  color:var(--ouro);margin-bottom:8px;
+}
+.fc-title{
+  font-size:22px;font-weight:800;
+  line-height:1.15;color:var(--creme);
+  margin-bottom:28px;
+}
+.fc-title em{font-style:normal;color:var(--ouro-claro)}
+
+/* Inputs */
+.field{margin-bottom:14px;position:relative}
+.field label{
+  display:block;
+  font-size:9px;font-weight:700;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(245,239,230,.35);margin-bottom:7px;
+}
+.field input{
+  width:100%;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,169,59,.18);
+  border-radius:10px;
+  padding:15px 18px;
+  font-family:'Montserrat',sans-serif;
+  font-size:14px;font-weight:500;
+  color:var(--creme);outline:none;
+  transition:border-color .2s,background .2s,box-shadow .2s;
+}
+.field input::placeholder{color:rgba(245,239,230,.2);font-weight:400}
+.field input:focus{
+  border-color:var(--ouro);
+  background:rgba(201,169,59,.06);
+  box-shadow:0 0 0 3px rgba(201,169,59,.1);
+}
+
+/* CTA button */
+.btn-cta{
+  width:100%;
+  background:linear-gradient(135deg,var(--ouro-claro),var(--ouro));
+  color:var(--preto);
+  border:none;border-radius:10px;
+  padding:18px 24px;
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;font-weight:800;
+  letter-spacing:2.5px;text-transform:uppercase;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:opacity .2s,transform .15s,box-shadow .2s;
+  box-shadow:0 4px 28px rgba(201,169,59,.3);
+  margin-top:20px;
+}
+.btn-cta:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 36px rgba(201,169,59,.4)}
+.btn-cta svg{flex-shrink:0}
+
+/* Divisor */
+.or-line{
+  display:flex;align-items:center;gap:12px;
+  font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(245,239,230,.2);margin:18px 0;
+}
+.or-line::before,.or-line::after{
+  content:'';flex:1;height:1px;
+  background:rgba(245,239,230,.08);
+}
+
+/* WhatsApp */
+.btn-wpp{
+  width:100%;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:transparent;
+  border:1px solid rgba(201,169,59,.22);
+  border-radius:10px;
+  padding:14px 24px;
+  font-family:'Montserrat',sans-serif;
+  font-size:10px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--ouro);cursor:pointer;
+  text-decoration:none;
+  transition:background .2s,border-color .2s;
+}
+.btn-wpp:hover{background:rgba(201,169,59,.07);border-color:var(--ouro)}
+
+.fc-disc{
+  font-size:10px;color:rgba(245,239,230,.25);
+  text-align:center;line-height:1.6;margin-top:14px;
+}
+
+/* ══════════════════════════════════
+   COUNTDOWN
+══════════════════════════════════ */
+#countdown{
+  background:var(--carvao);
+  border-top:1px solid rgba(201,169,59,.1);
+  border-bottom:1px solid rgba(201,169,59,.1);
+  padding:56px 40px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+#countdown::before{
+  content:'';
+  position:absolute;top:-100px;left:50%;
+  transform:translateX(-50%);
+  width:600px;height:300px;
+  background:radial-gradient(ellipse,rgba(201,169,59,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cd-label{
+  font-size:9px;font-weight:800;
+  letter-spacing:5px;text-transform:uppercase;
+  color:var(--ouro);margin-bottom:36px;
+  opacity:.8;
+}
+.cd-grid{
+  display:inline-flex;align-items:flex-start;
+  gap:clamp(12px,3vw,40px);
+}
+.cd-unit{display:flex;flex-direction:column;align-items:center}
+.cd-num{
+  font-size:clamp(52px,9vw,100px);
+  font-weight:900;line-height:1;
+  color:var(--creme);
+  letter-spacing:-3px;
+  font-variant-numeric:tabular-nums;
+  position:relative;
+}
+.cd-num::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(to right,transparent,rgba(201,169,59,.3),transparent);
+}
+.cd-sep{
+  font-size:clamp(40px,7vw,80px);
+  font-weight:900;color:var(--ouro);
+  opacity:.3;line-height:1;
+  padding-top:6px;
+}
+.cd-lbl{
+  font-size:8px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  color:rgba(245,239,230,.25);margin-top:10px;
+}
+
+/* ══════════════════════════════════
+   SEÇÃO GENÉRICA
+══════════════════════════════════ */
+.section{padding:96px 40px}
+.section-inner{max-width:1100px;margin:0 auto}
+.s-label{
+  font-size:9px;font-weight:800;
+  letter-spacing:5px;text-transform:uppercase;
+  color:var(--ouro);margin-bottom:14px;display:block;
+}
+.s-divider{
+  width:44px;height:3px;
+  background:linear-gradient(to right,var(--ouro),var(--ouro-claro));
+  border-radius:2px;margin:0 0 32px;
+}
+.s-h2{
+  font-size:clamp(28px,4vw,48px);
+  font-weight:900;line-height:1.05;
+  letter-spacing:-1.5px;
+  margin-bottom:16px;
+}
+.s-sub{
+  font-size:15px;font-weight:400;
+  line-height:1.8;color:rgba(245,239,230,.55);
+  max-width:560px;
+}
+
+/* ══════════════════════════════════
+   LEARN — O que vai aprender
+══════════════════════════════════ */
+#learn{background:var(--preto)}
+.learn-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:1px;
+  margin-top:56px;
+  border:1px solid rgba(201,169,59,.1);
+  border-radius:16px;overflow:hidden;
+}
+.lc{
+  padding:36px 32px;
+  background:var(--carvao2);
+  display:flex;gap:20px;
+  transition:background .3s;
+  position:relative;
+}
+.lc::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:32px;right:32px;height:1px;
+  background:rgba(201,169,59,.08);
+}
+.lc:hover{background:rgba(201,169,59,.04)}
+.lc-num{
+  font-size:32px;font-weight:900;
+  color:var(--ouro);opacity:.18;
+  line-height:1;flex-shrink:0;
+  letter-spacing:-2px;
+  min-width:48px;
+}
+.lc-body h4{
+  font-size:14px;font-weight:700;
+  color:var(--ouro-claro);margin-bottom:8px;line-height:1.3;
+}
+.lc-body p{
+  font-size:13px;font-weight:400;
+  color:rgba(245,239,230,.5);line-height:1.65;
+}
+
+/* ══════════════════════════════════
+   JORNADA
+══════════════════════════════════ */
+#jornada{background:var(--carvao)}
+.jornada-wrap{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:96px;align-items:start;
+}
+/* Timeline */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{
+  content:'';
+  position:absolute;left:5px;top:12px;bottom:12px;width:2px;
+  background:linear-gradient(to bottom,var(--ouro),rgba(201,169,59,.05));
+}
+.ti{position:relative;margin-bottom:28px;padding-left:24px}
+.ti:last-child{margin-bottom:0}
+.ti-dot{
+  position:absolute;left:-28px;top:5px;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--carvao);
+  border:2px solid rgba(201,169,59,.4);
+  transition:border-color .3s;
+}
+.ti:hover .ti-dot{border-color:var(--ouro)}
+.ti.main .ti-dot{
+  background:var(--ouro);border-color:var(--ouro);
+  box-shadow:0 0 16px rgba(201,169,59,.5);
+  width:14px;height:14px;left:-29px;top:4px;
+}
+.ti.dim .ti-dot{border-color:rgba(201,169,59,.15)}
+.ti-date{
+  font-size:9px;font-weight:700;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--ouro);opacity:.7;margin-bottom:3px;
+}
+.ti.dim .ti-date{opacity:.35}
+.ti-title{
+  font-size:15px;font-weight:700;
+  color:var(--creme);line-height:1.25;margin-bottom:4px;
+}
+.ti.main .ti-title{font-size:17px;color:var(--ouro-claro)}
+.ti.dim .ti-title{opacity:.4;font-size:13px}
+.ti-desc{font-size:12px;color:rgba(245,239,230,.4);line-height:1.55}
+.ti-badge{
+  display:inline-block;margin-top:8px;
+  font-size:8px;font-weight:800;
+  letter-spacing:2px;text-transform:uppercase;
+  background:var(--ouro);color:var(--preto);
+  padding:4px 12px;border-radius:2px;
+}
+.ti-badge-out{
+  display:inline-block;margin-top:8px;
+  font-size:8px;font-weight:800;
+  letter-spacing:2px;text-transform:uppercase;
+  border:1px solid rgba(201,169,59,.3);color:var(--ouro);
+  padding:4px 12px;border-radius:2px;
+}
+/* Box highlight live principal */
+.ti.main{
+  background:rgba(201,169,59,.06);
+  border:1px solid rgba(201,169,59,.2);
+  border-radius:12px;
+  padding:24px 24px 24px 24px;
+  margin-left:-4px;
+  margin-top:36px;
+}
+.ti.main .ti-dot{left:-37px}
+
+/* ══════════════════════════════════
+   PARA QUEM É
+══════════════════════════════════ */
+#quem{background:var(--preto)}
+.quem-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+  margin-top:56px;
+}
+.qc{
+  padding:36px 28px;
+  background:var(--carvao2);
+  border:1px solid rgba(201,169,59,.1);
+  border-radius:14px;
+  transition:border-color .3s,transform .3s;
+  position:relative;overflow:hidden;
+}
+.qc::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--ouro),var(--ouro-claro));
+  opacity:0;transition:opacity .3s;
+}
+.qc:hover{border-color:rgba(201,169,59,.3);transform:translateY(-4px)}
+.qc:hover::before{opacity:1}
+.qc h4{
+  font-size:15px;font-weight:800;
+  color:var(--ouro-claro);margin-bottom:10px;
+}
+.qc p{font-size:13px;color:rgba(245,239,230,.55);line-height:1.65;margin-bottom:16px}
+.cl{list-style:none}
+.cl li{
+  font-size:12px;color:rgba(245,239,230,.45);
+  line-height:1.6;padding-left:18px;position:relative;
+  margin-bottom:2px;
+}
+.cl li::before{
+  content:'✓';position:absolute;left:0;
+  color:var(--ouro);font-weight:700;font-size:11px;
+}
+
+/* ══════════════════════════════════
+   CTA FINAL
+══════════════════════════════════ */
+#cta-final{
+  background:var(--carvao);
+  position:relative;overflow:hidden;
+}
+.cta-bg-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(201,169,59,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,169,59,.04) 1px,transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+}
+.cta-bg-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:700px;height:400px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(201,169,59,.09) 0%,transparent 65%);
+  pointer-events:none;
+}
+.cta-inner{
+  position:relative;z-index:1;
+  max-width:640px;margin:0 auto;
+  text-align:center;padding:100px 40px;
+}
+.cta-h2{
+  font-size:clamp(30px,4.5vw,54px);
+  font-weight:900;line-height:1.0;
+  letter-spacing:-2px;margin:16px 0 14px;
+}
+.cta-sub{
+  font-size:15px;font-weight:400;
+  line-height:1.8;color:rgba(245,239,230,.55);
+  margin-bottom:48px;
+}
+.cta-form{
+  max-width:380px;margin:0 auto;
+  display:flex;flex-direction:column;gap:12px;
+}
+.cta-form .field input{text-align:left}
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer{
+  border-top:1px solid rgba(201,169,59,.1);
+  padding:44px 40px;text-align:center;
+}
+.ft-brand{
+  font-size:9px;font-weight:800;
+  letter-spacing:4px;text-transform:uppercase;
+  color:var(--ouro);margin-bottom:10px;
+}
+footer p{font-size:11px;color:rgba(245,239,230,.2);line-height:1.7}
+
+/* ══════════════════════════════════
+   ANIMAÇÕES DE ENTRADA
+══════════════════════════════════ */
+.reveal{
+  opacity:0;transform:translateY(28px);
+  transition:opacity .65s ease,transform .65s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ══════════════════════════════════
+   RESPONSIVO
+══════════════════════════════════ */
+@media(max-width:960px){
+  #hero{grid-template-columns:1fr;min-height:auto}
+  .hero-right{
+    height:auto;border-left:none;
+    border-top:1px solid rgba(201,169,59,.08);
+    padding:40px 24px 60px;
+    background:rgba(201,169,59,.03);
+  }
+  .hero-left{padding:100px 24px 48px}
+  .orb{display:none}
+  .jornada-wrap{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .section{padding:72px 24px}
+  .s-h2{letter-spacing:-1px}
+  .cd-sep{display:none}
+  .learn-grid{grid-template-columns:1fr}
+  .cta-inner{padding:72px 24px}
+  footer{padding:36px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- ESQUERDA -->
+  <div class="hero-left">
+
+    <div class="brand">
+      <svg width="30" height="24" viewBox="0 0 60 46" fill="none">
+        <path d="M12 40Q2 40 2 31Q2 22 12 21Q11 10 21 7Q27 4 33 9Q37 4 44 6Q55 8 56 19Q63 19 64 29Q65 39 55 40Z"
+          fill="#C9A93B" opacity=".15"/>
+        <path d="M12 40Q2 40 2 31Q2 22 12 21Q11 10 21 7Q27 4 33 9Q37 4 44 6Q55 8 56 19Q63 19 64 29Q65 39 55 40Z"
+          fill="none" stroke="#C9A93B" stroke-width="1.8" stroke-linejoin="round"/>
+        <line x1="20" y1="27" x2="47" y2="27" stroke="#C9A93B" stroke-width="1.2" opacity=".4" stroke-linecap="round"/>
+        <line x1="24" y1="33" x2="43" y2="33" stroke="#C9A93B" stroke-width="1.2" opacity=".2" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-name">
+        Formação SAP Cloud
+        <small>by Lab2learn</small>
+      </div>
+    </div>
+
+    <div class="live-pill">
+      <span class="dot"></span>
+      Live Gratuita &nbsp;·&nbsp; 16 de Maio &nbsp;·&nbsp; 9h
+    </div>
+
+    <h1 class="hero-h1">
+      <span class="line1">A Nova Z</span>
+      <span class="line2">Clean Core</span>
+      <span class="line3">na Prática</span>
+    </h1>
+
+    <div class="hero-rule"></div>
+
+    <p class="hero-sub">
+      Veja ao vivo como criar uma extensão no S/4HANA, <b>da especificação ao código</b>, sem gerar débito técnico, usando IA do jeito certo. Do zero. Com projeto real na tela.
+    </p>
+
+    <div class="tags">
+      <span class="tag">Desenvolvedores ABAP</span>
+      <span class="tag">Consultores Funcionais</span>
+      <span class="tag">Arquitetos SAP</span>
+      <span class="tag">Tech Leads</span>
+    </div>
+
+    <div class="event-meta">
+      <div class="em-item">
+        <div class="em-label">Data</div>
+        <div class="em-val">16 de Maio, 2026</div>
+      </div>
+      <div class="em-item">
+        <div class="em-label">Horário</div>
+        <div class="em-val">9h (Brasília)</div>
+      </div>
+      <div class="em-item">
+        <div class="em-label">Onde</div>
+        <div class="em-val">YouTube · Lab2learn</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FORMULÁRIO DIREITA -->
+  <div class="hero-right">
+    <div class="form-card">
+      <div class="fc-sup">Vagas limitadas</div>
+      <div class="fc-title">
+        Reserve a sua vaga.<br>
+        <em>É gratuito.</em>
+      </div>
+
+      <!--
+      ┌─────────────────────────────────────────┐
+      │  OPÇÃO A — Formspree (mais fácil/rápido)│
+      │  1. Acesse formspree.io e crie uma conta│
+      │  2. Crie um form, copie o endpoint      │
+      │  3. Substitua SEU_ID abaixo             │
+      └─────────────────────────────────────────┘
+      -->
+      <form id="form-hero" action="https://formspree.io/f/SEU_ID" method="POST">
+        <div class="field">
+          <label for="nome">Seu nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Como quer ser chamado(a)?" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="Seu melhor e-mail" required autocomplete="email">
+        </div>
+        <!-- Campo oculto para identificar origem no RD Station / planilha -->
+        <input type="hidden" name="_subject" value="Nova inscrição — A Nova Z Live 16/05">
+        <input type="hidden" name="origem" value="hero-form">
+
+        <button type="submit" class="btn-cta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg>
+          Quero participar da live
+        </button>
+      </form>
+
+      <div class="or-line">ou entre direto no grupo</div>
+
+      <a class="btn-wpp" href="https://chat.whatsapp.com/LINK_DO_GRUPO" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Entrar no grupo do WhatsApp
+      </a>
+
+      <p class="fc-disc">Sem spam. Só o que for sobre essa live.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════
+     COUNTDOWN
+══════════════════════════════════ -->
+<section id="countdown">
+  <div class="cd-label">Faltam para o início da live</div>
+  <div class="cd-grid">
+    <div class="cd-unit"><div class="cd-num" id="cd-d">36</div><div class="cd-lbl">dias</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-unit"><div class="cd-num" id="cd-h">00</div><div class="cd-lbl">horas</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-unit"><div class="cd-num" id="cd-m">00</div><div class="cd-lbl">min</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-unit"><div class="cd-num" id="cd-s">00</div><div class="cd-lbl">seg</div></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     O QUE VOCÊ VAI APRENDER
+══════════════════════════════════ -->
+<section id="learn" class="section">
+  <div class="section-inner">
+    <span class="s-label reveal">O que você vai aprender</span>
+    <div class="s-divider reveal"></div>
+    <h2 class="s-h2 reveal">
+      Tudo na tela.<br>
+      <span style="color:var(--ouro)">Com projeto real.</span>
+    </h2>
+
+    <div class="learn-grid reveal">
+      <div class="lc">
+        <div class="lc-num">01</div>
+        <div class="lc-body">
+          <h4>O que é uma Z limpa e por que isso importa</h4>
+          <p>Entenda a diferença entre uma extensão que sobrevive ao upgrade e uma que vai gerar dor de cabeça na próxima migração.</p>
+        </div>
+      </div>
+      <div class="lc">
+        <div class="lc-num">02</div>
+        <div class="lc-body">
+          <h4>Da especificação funcional ao código com IA</h4>
+          <p>Como um funcional documenta o requisito e como o dev transforma isso em ABAP Cloud usando IA, sem pular etapas.</p>
+        </div>
+      </div>
+      <div class="lc">
+        <div class="lc-num">03</div>
+        <div class="lc-body">
+          <h4>Arquitetura RAP na prática</h4>
+          <p>Business Object, Behavior Definition, Service Binding. Na tela, com o S/4HANA rodando ao vivo durante a live.</p>
+        </div>
+      </div>
+      <div class="lc">
+        <div class="lc-num">04</div>
+        <div class="lc-body">
+          <h4>IA acelerando cada etapa do desenvolvimento</h4>
+          <p>Ferramentas reais que os melhores devs SAP estão usando agora para especificar, codar, revisar e documentar mais rápido.</p>
+        </div>
+      </div>
+      <div class="lc">
+        <div class="lc-num">05</div>
+        <div class="lc-body">
+          <h4>Como saber se seu projeto está no caminho certo</h4>
+          <p>Um checklist claro para avaliar se o que você está construindo vai passar na auditoria clean core.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     JORNADA
+══════════════════════════════════ -->
+<section id="jornada" class="section">
+  <div class="section-inner">
+    <div class="jornada-wrap">
+
+      <div class="reveal">
+        <span class="s-label">Antes da live principal</span>
+        <div class="s-divider"></div>
+        <h2 class="s-h2">
+          5 lives de aquecimento<br>
+          <span style="color:var(--ouro)">para ficar por dentro do que está rolando</span>
+        </h2>
+        <p class="s-sub" style="margin-top:16px">
+          Toda segunda-feira às 20h, no canal da Lab2learn. Gratuito. Ao vivo. Uma jornada para você se familiarizar com o tema e entrar no contexto certo.
+        </p>
+      </div>
+
+      <div class="timeline reveal">
+
+        <div class="ti">
+          <div class="ti-dot"></div>
+          <div class="ti-date">13 · Abr · Segunda · 20h</div>
+          <div class="ti-title">Clean Core para ABAP</div>
+          <div class="ti-desc">O que muda na prática para o desenvolvedor ABAP no universo S/4HANA Cloud.</div>
+          <span class="ti-badge-out">Live 1 de 5</span>
+        </div>
+
+        <div class="ti">
+          <div class="ti-dot"></div>
+          <div class="ti-date">20 · Abr · Segunda · 20h</div>
+          <div class="ti-title">Clean Core para Funcionais</div>
+          <div class="ti-desc">Como o consultor funcional influencia a adoção do Clean Core em projeto.</div>
+          <span class="ti-badge-out">Live 2 de 5</span>
+        </div>
+
+        <div class="ti">
+          <div class="ti-dot"></div>
+          <div class="ti-date">27 · Abr · Segunda · 20h</div>
+          <div class="ti-title">Como Saber se meu Projeto é Clean Core</div>
+          <div class="ti-desc">Checklist prático para avaliar o nível de conformidade do seu projeto.</div>
+          <span class="ti-badge-out">Live 3 de 5</span>
+        </div>
+
+        <div class="ti">
+          <div class="ti-dot"></div>
+          <div class="ti-date">04 · Mai · Segunda · 20h</div>
+          <div class="ti-title">Gerando um ABAP com IA</div>
+          <div class="ti-desc">Como usar IA para escrever ABAP Cloud limpo, rápido e testável.</div>
+          <span class="ti-badge-out">Live 4 de 5</span>
+        </div>
+
+        <div class="ti">
+          <div class="ti-dot"></div>
+          <div class="ti-date">11 · Mai · Segunda · 20h</div>
+          <div class="ti-title">Especificação Funcional com IA</div>
+          <div class="ti-desc">Como produzir specs técnicas de alto nível com apoio de IA, o fluxo produtivo do funcional moderno.</div>
+          <span class="ti-badge-out">Live 5 de 5</span>
+        </div>
+
+        <div class="ti main">
+          <div class="ti-dot"></div>
+          <div class="ti-date" style="color:var(--ouro-claro);opacity:1">16 · Mai · Sexta · 9h</div>
+          <div class="ti-title">A Nova Z: Clean Core na Prática</div>
+          <div class="ti-desc" style="color:rgba(245,239,230,.65);margin-top:4px">Da especificação ao desenvolvimento com IA. Ao vivo. Com acesso ao S/4HANA.</div>
+          <span class="ti-badge">Live Principal · Gratuita</span>
+        </div>
+
+        <div class="ti dim" style="margin-top:24px">
+          <div class="ti-dot"></div>
+          <div class="ti-date">18 · Mai · Qual o Futuro do Funcional?</div>
+          <div class="ti-title">Live pós-lançamento</div>
+        </div>
+        <div class="ti dim">
+          <div class="ti-dot"></div>
+          <div class="ti-date">25 · Mai · Qual o Futuro do ABAP?</div>
+          <div class="ti-title">Live pós-lançamento</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PARA QUEM É
+══════════════════════════════════ -->
+<section id="quem" class="section">
+  <div class="section-inner">
+    <span class="s-label reveal">Para quem é essa live</span>
+    <div class="s-divider reveal"></div>
+    <h2 class="s-h2 reveal">
+      Se você vive no universo SAP,<br>
+      <span style="color:var(--ouro)">essa live é para você.</span>
+    </h2>
+
+    <div class="quem-grid">
+      <div class="qc reveal">
+        <h4>Desenvolvedor ABAP</h4>
+        <p>De 3 a 30 anos de SAP. Sabe que o mercado mudou mas não sabe por onde começar a mudança.</p>
+        <ul class="cl">
+          <li>Ainda usa SELECT * em reports customizados</li>
+          <li>Quer aprender RAP mas não tem ambiente</li>
+          <li>Quer codar com IA sem virar refém dela</li>
+        </ul>
+      </div>
+      <div class="qc reveal">
+        <h4>Consultor Funcional</h4>
+        <p>Sabe o processo de negócio de cor, mas quer entender o que acontece por trás da personalização.</p>
+        <ul class="cl">
+          <li>Quer escrever specs que o dev realmente usa</li>
+          <li>Quer usar IA para acelerar documentação</li>
+          <li>Quer entender clean core para liderar projetos</li>
+        </ul>
+      </div>
+      <div class="qc reveal">
+        <h4>Arquiteto SAP</h4>
+        <p>Responsável pelas decisões de extensibilidade. Precisa dominar as melhores práticas do S/4HANA Cloud.</p>
+        <ul class="cl">
+          <li>Quer um framework claro para extensões</li>
+          <li>Precisa convencer time e cliente de clean core</li>
+          <li>Quer referência técnica atualizada e prática</li>
+        </ul>
+      </div>
+      <div class="qc reveal">
+        <h4>Tech Lead / PM</h4>
+        <p>Lidera times SAP e precisa entender o técnico o suficiente para tomar decisões melhores.</p>
+        <ul class="cl">
+          <li>Quer entender débito técnico para gerenciar</li>
+          <li>Quer usar IA nos processos do time</li>
+          <li>Quer uma visão completa do cenário SAP atual</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     CTA FINAL
+══════════════════════════════════ -->
+<section id="cta-final">
+  <div class="cta-bg-grid"></div>
+  <div class="cta-bg-glow"></div>
+  <div class="cta-inner reveal">
+    <span class="s-label">Vagas limitadas</span>
+    <h2 class="cta-h2">
+      Reserve a sua vaga.<br>
+      <span style="color:var(--ouro)">É gratuito.</span>
+    </h2>
+    <p class="cta-sub">
+      16 de Maio · 9h · Canal da Lab2learn no YouTube<br>
+      Ao vivo. Sem replay garantido.
+    </p>
+
+    <div class="cta-form">
+      <form id="form-cta" action="https://formspree.io/f/SEU_ID" method="POST">
+        <div class="field">
+          <label for="nome2">Seu nome</label>
+          <input type="text" id="nome2" name="nome" placeholder="Como quer ser chamado(a)?" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="email2">E-mail</label>
+          <input type="email" id="email2" name="email" placeholder="Seu melhor e-mail" required autocomplete="email">
+        </div>
+        <input type="hidden" name="_subject" value="Nova inscrição — A Nova Z Live 16/05">
+        <input type="hidden" name="origem" value="cta-final">
+        <button type="submit" class="btn-cta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg>
+          Quero estar na live
+        </button>
+      </form>
+
+      <div class="or-line">ou</div>
+      <a class="btn-wpp" href="https://chat.whatsapp.com/LINK_DO_GRUPO" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Entrar no grupo do WhatsApp
+      </a>
+      <p class="fc-disc">Sem spam. Só o que for sobre essa live.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+<footer>
+  <div class="ft-brand">Lab2learn · Formação SAP Cloud</div>
+  <p>Live gratuita · 16 de Maio de 2026 · 9h · Canal Lab2learn no YouTube</p>
+  <p style="margin-top:4px">© 2026 Lab2learn. Educação técnica em SAP.</p>
+</footer>
+
+<script>
+/* ── COUNTDOWN ── */
+const live = new Date('2026-05-16T09:00:00-03:00');
+function pad(n){return String(n).padStart(2,'0')}
+function tick(){
+  const diff = live - Date.now();
+  if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='00');return}
+  document.getElementById('cd-d').textContent = pad(Math.floor(diff/86400000));
+  document.getElementById('cd-h').textContent = pad(Math.floor(diff%86400000/3600000));
+  document.getElementById('cd-m').textContent = pad(Math.floor(diff%3600000/60000));
+  document.getElementById('cd-s').textContent = pad(Math.floor(diff%60000/1000));
+}
+tick(); setInterval(tick,1000);
+
+/* ── REVEAL ON SCROLL ── */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ── FORM FEEDBACK ── */
+function setupForm(id){
+  const f = document.getElementById(id);
+  if(!f)return;
+  f.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const btn = f.querySelector('button[type=submit]');
+    btn.textContent='Enviando...';btn.disabled=true;
+    try{
+      const r = await fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});
+      if(r.ok){
+        btn.style.background='#2d7a4f';
+        btn.textContent='✓ Vaga garantida! Verifique seu e-mail';
+        f.reset();
+      } else {
+        btn.style.background='#7a2d2d';
+        btn.textContent='Erro — tente novamente';btn.disabled=false;
+      }
+    } catch{
+      btn.style.background='#7a2d2d';
+      btn.textContent='Erro — tente novamente';btn.disabled=false;
+    }
+  });
+}
+setupForm('form-hero');
+setupForm('form-cta');
+</script>
+</body>
+</html>

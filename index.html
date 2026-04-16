@@ -868,9 +868,10 @@ src="https://www.facebook.com/tr?id=1394102987855022&ev=PageView&noscript=1"/></
       <script type="text/javascript" src="https://d335luupugsy2.cloudfront.net/js/rdstation-forms/stable/rdstation-forms.min.js"></script>
       <script type="text/javascript">new RDStationForms('a-nova-z-ddcd3a6be827d99e9fdc', 'null').createForm();</script>
       <script type="text/javascript">
+        window.alert = function() {};
         window.addEventListener('message', function(e) {
           if (e.data && (e.data.type === 'RDStationFormSuccessSubmit' || e.data === 'rdstation:form:success')) {
-            window.location.href = '/obrigado';
+            window.location.replace('/obrigado.html');
           }
         });
       </script>
